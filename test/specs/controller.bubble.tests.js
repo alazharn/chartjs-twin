@@ -358,5 +358,23 @@ describe('Chart.controllers.bubble', function() {
       expect(point.options.borderWidth).toBe(2);
       expect(point.options.radius).toBe(20);
     });
+
+    it ('should handle hoverRadius: 0 to maintain bubble size on hover', async function() {
+      var chart = this.chart;
+      var point = chart.getDatasetMeta(0).data[0];
+
+      Chart.helpers.merge(chart.data.datasets[0], {
+        hoverRadius: 0
+      });
+
+      chart.update();
+
+      // With hoverRadius: 0, bubble should maintain its original size (20)
+      await jasmine.triggerMouseEvent(chart, 'mousemove', point);
+      expect(point.options.radius).toBe(20);
+
+      await jasmine.triggerMouseEvent(chart, 'mouseout', point);
+      expect(point.options.radius).toBe(20);
+    });
   });
 });
