@@ -111,11 +111,18 @@ export default class BubbleController extends DatasetController {
     }
 
     // Custom radius resolution
-    const radius = values.radius;
-    if (mode !== 'active') {
-      values.radius = 0;
+    const customRadius = valueOrDefault(parsed && parsed._custom, 0);
+
+    // For reset mode, start from 0 for animation
+    if (mode === 'reset') {
+      values.radius = customRadius;
+    } else if (mode === 'active') {
+      // In active mode, values.radius contains hoverRadius which should be ADDED to the data radius
+      values.radius = customRadius + values.radius;
+    } else {
+      // In normal mode, use only the data radius
+      values.radius = customRadius;
     }
-    values.radius += valueOrDefault(parsed && parsed._custom, radius);
 
     return values;
   }
