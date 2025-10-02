@@ -111,11 +111,17 @@ export default class BubbleController extends DatasetController {
     }
 
     // Custom radius resolution
-    const radius = values.radius;
-    if (mode !== 'active') {
-      values.radius = 0;
+    // The base radius comes from the data point's 'r' property
+    const baseRadius = valueOrDefault(parsed && parsed._custom, 0);
+
+    if (mode === 'active') {
+      // For hover/active state: add hoverRadius to base radius
+      // values.radius contains hoverRadius from parent resolution
+      values.radius = baseRadius + values.radius;
+    } else {
+      // For normal state: use only base radius from data
+      values.radius = baseRadius;
     }
-    values.radius += valueOrDefault(parsed && parsed._custom, radius);
 
     return values;
   }
