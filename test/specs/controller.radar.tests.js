@@ -284,7 +284,7 @@ describe('Chart.controllers.radar', function() {
       expect(point.options.backgroundColor).toBe('rgb(200, 100, 150)');
       expect(point.options.borderColor).toBe('rgb(150, 50, 100)');
       expect(point.options.borderWidth).toBe(8.4);
-      expect(point.options.radius).toBe(4.2);
+      expect(point.options.radius).toBe(3 + 4.2);
 
       await jasmine.triggerMouseEvent(chart, 'mouseout', point);
       expect(point.options.backgroundColor).toBe('rgb(100, 150, 200)');
@@ -310,7 +310,7 @@ describe('Chart.controllers.radar', function() {
       expect(point.options.backgroundColor).toBe('rgb(200, 100, 150)');
       expect(point.options.borderColor).toBe('rgb(150, 50, 100)');
       expect(point.options.borderWidth).toBe(8.4);
-      expect(point.options.radius).toBe(4.2);
+      expect(point.options.radius).toBe(3 + 4.2);
 
       await jasmine.triggerMouseEvent(chart, 'mouseout', point);
       expect(point.options.backgroundColor).toBe('rgb(100, 150, 200)');

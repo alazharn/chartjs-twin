@@ -99,6 +99,29 @@ export default class LineController extends DatasetController {
     return Math.max(border, firstPoint, lastPoint) / 2;
   }
 
+  /**
+	 * @param {number} index
+	 * @param {string} [mode]
+	 * @protected
+	 */
+  resolveDataElementOptions(index, mode) {
+    let values = super.resolveDataElementOptions(index, mode);
+
+    // Make hoverRadius additive to base radius (consistent with bubble charts)
+    if (mode === 'active') {
+      // In case values were cached (and thus frozen), we need to clone the values
+      if (values.$shared) {
+        values = Object.assign({}, values, {$shared: false});
+      }
+
+      const baseRadius = super.resolveDataElementOptions(index, 'default').radius;
+      const hoverRadius = values.radius;
+      values.radius = baseRadius + hoverRadius;
+    }
+
+    return values;
+  }
+
   draw() {
     const meta = this._cachedMeta;
     meta.dataset.updateControlPoints(this.chart.chartArea, meta.iScale.axis);
